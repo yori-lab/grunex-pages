@@ -45,7 +45,8 @@
       shortName: t.replace(/^ウォームアップブーツ\s*/, "").replace(/※セミオーダー不可/, ""),
     };
   }
-  const fromLi = li => parse({ ...li.dataset });
+  // ラベルApp の画像(NEW など)はテンプレートが li の中に入れてくる
+  const fromLi = li => ({ ...parse({ ...li.dataset }), label: li.querySelector("img")?.src || "" });
 
   // 柄の並びは A〜Z の次が AA, AB…(表計算の列名と同じ)。文字数が少ない方を先にしてから比べる。
   function byCode(a, b) {
@@ -97,7 +98,7 @@
       : `<span class="badge semi">セミオーダー可</span>`;
     const href = i.kind === "boots" && i.stock === 0 && i.fabric ? `#/fabric/${i.fabric}?b=${i.bottom}` : i.url;
     return `<a class="card" href="${href}">
-      <div class="ph" style="background-image:url('${i.img}')">${badge}</div>
+      <div class="ph" style="background-image:url('${i.img}')">${badge}${i.label ? `<img class="label" src="${i.label}" alt="">` : ""}</div>
       <div class="body">
         <div class="name">${esc(i.shortName)}</div>
         <div class="price">${esc(i.price)}</div>
@@ -162,8 +163,9 @@
       const it = state.bottom ? f.items.find(i => i.bottom === state.bottom) : null;
       const cover = it ? it.img : f.cover;
       const badge = f.noSemi ? `<span class="badge gone">布終了・見本のみ</span>` : f.inStock ? `<span class="badge ok">在庫あり</span>` : "";
+      const label = (it || f.items.find(i => i.label))?.label;
       return `<a class="card" href="#/fabric/${f.code}${state.bottom ? "?b=" + state.bottom : ""}">
-        <div class="ph" style="background-image:url('${cover}')">${badge}</div>
+        <div class="ph" style="background-image:url('${cover}')">${badge}${label ? `<img class="label" src="${label}" alt="">` : ""}</div>
         <div class="body">
           <div class="name">${f.code}　${esc(f.base)}地</div>
           <div class="meta">作った組み合わせ ${f.bottoms.length}色</div>

@@ -178,3 +178,4 @@ body { padding-bottom: 72px; }  /* スマホのメッセージApp「ショップ
 .hero h1 { text-wrap: balance; }
 nav.site { scrollbar-width: none; }
 nav.site::-webkit-scrollbar { display: none; }
+.card .ph .label { position: absolute; right: 6px; top: 6px; width: 40px; height: auto; pointer-events: none; }

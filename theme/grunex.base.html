@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{PageTitle}</title>
 <meta name="BASE-Theme-Name" content="grunex fabric">
-<meta name="BASE-Theme-Version" content="1">
+<meta name="BASE-Theme-Version" content="2">
 {FaviconTag}
 {CanonicalTag}
 {block:ItemPage}{MetaItemInfoTag}{/block:ItemPage}
@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
 <!-- 見た目と動きは GitHub Pages(yori-lab/grunex-pages)に置いている。正本は playground/grunex-theme -->
-<link rel="stylesheet" href="https://yori-lab.github.io/grunex-pages/theme/grunex.css?v=2">
+<link rel="stylesheet" href="https://yori-lab.github.io/grunex-pages/theme/grunex.css?v=3">
 {BackgroundTag}
 {GoogleAnalyticsTag}
 </head>
@@ -71,7 +71,7 @@
       <div class="wrap"><h1 class="list-title">{lang:ItemSearchResult}</h1></div>
       <div id="gx-list"></div>
     {/block:IndexPageSearch}
-    <ul id="gx-items" hidden>{block:Items}<li class="gx-i" data-id="{ItemId}" data-title="{ItemTitle}" data-price="{ItemPrice}" data-stock="{ItemStock}" data-img="{ItemImage1URL-640}" data-url="{ItemPageURL}"></li>{/block:Items}</ul>
+    <ul id="gx-items" hidden>{block:Items}<li class="gx-i" data-id="{ItemId}" data-title="{ItemTitle}" data-price="{ItemPrice}" data-stock="{ItemStock}" data-img="{ItemImage1URL-640}" data-url="{ItemPageURL}">{block:AppsItemLabel}{AppsItemLabelTag}{/block:AppsItemLabel}</li>{/block:Items}</ul>
     <script>window.GX = { more: "{LoadItemsPageURL}", params: "{LoadItemsPageURLParams}", max: "{MaxPageNumber}" };</script>
   {/block:ShopPublic}
   {block:NotShopPublic}
@@ -159,7 +159,7 @@
   </div>
 </footer>
 <script>window.GX_HOME = "{IndexPageURL}";</script>
-<script src="https://yori-lab.github.io/grunex-pages/theme/grunex.js?v=2"></script>
+<script src="https://yori-lab.github.io/grunex-pages/theme/grunex.js?v=3"></script>
 </body>
 </html>
-{/block:NotLoadItemsPage}{block:LoadItemsPage}{block:Items}<li class="gx-i" data-id="{ItemId}" data-title="{ItemTitle}" data-price="{ItemPrice}" data-stock="{ItemStock}" data-img="{ItemImage1URL-640}" data-url="{ItemPageURL}"></li>{/block:Items}{/block:LoadItemsPage}
+{/block:NotLoadItemsPage}{block:LoadItemsPage}{block:Items}<li class="gx-i" data-id="{ItemId}" data-title="{ItemTitle}" data-price="{ItemPrice}" data-stock="{ItemStock}" data-img="{ItemImage1URL-640}" data-url="{ItemPageURL}">{block:AppsItemLabel}{AppsItemLabelTag}{/block:AppsItemLabel}</li>{/block:Items}{/block:LoadItemsPage}
