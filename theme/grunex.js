@@ -24,7 +24,7 @@
     OLG: ["オリーブグリーン", "#6d7140"], STB: ["ストロベリー", "#d8476b"], RPP: ["ロイヤルパープル", "#5b2b86"],
   };
   const SIZES = [["Ｓ", "底面23.5cm"], ["Ｍ", "底面25.0cm"], ["Ｌ", "底面26.5cm"], ["ＬＬ", "底面29.0cm"]];
-  const HOME = location.origin + "/";
+  const HOME = window.GX_HOME || location.origin + "/";   // テンプレートの {IndexPageURL}
 
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const dot = code => `<span class="dot" style="background:${BOTTOM[code]?.[1] || "#ccc"}" title="${BOTTOM[code]?.[0] || code}"></span>`;

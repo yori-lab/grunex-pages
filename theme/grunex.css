@@ -120,7 +120,8 @@ footer.site a { margin-right: 14px; }
 html body { background: var(--bg) !important; }
 header.site .wrap { gap: 12px; }
 nav.site { display: flex; flex-wrap: wrap; justify-content: flex-end; flex: 1; }
-.logo img, .logo .logoImage { max-height: 36px; width: auto; }
+.logo img, .logo .logoImage { max-height: 44px; width: auto; }
+.label_image { width: 56px; height: auto; margin-bottom: 6px; }
 .logo .logoText { font-family: Quicksand, sans-serif; font-weight: 700; font-size: 22px; letter-spacing: .08em; }
 #baseMenu ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 10px; align-items: center; }
 #baseMenu li { position: relative; }

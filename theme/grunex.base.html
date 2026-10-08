@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
 <!-- 見た目と動きは GitHub Pages(yori-lab/grunex-pages)に置いている。正本は playground/grunex-theme -->
-<link rel="stylesheet" href="https://yori-lab.github.io/grunex-pages/theme/grunex.css?v=1">
+<link rel="stylesheet" href="https://yori-lab.github.io/grunex-pages/theme/grunex.css?v=2">
 {BackgroundTag}
 {GoogleAnalyticsTag}
 </head>
@@ -158,7 +158,8 @@
     </div>
   </div>
 </footer>
-<script src="https://yori-lab.github.io/grunex-pages/theme/grunex.js?v=1"></script>
+<script>window.GX_HOME = "{IndexPageURL}";</script>
+<script src="https://yori-lab.github.io/grunex-pages/theme/grunex.js?v=2"></script>
 </body>
 </html>
 {/block:NotLoadItemsPage}{block:LoadItemsPage}{block:Items}<li class="gx-i" data-id="{ItemId}" data-title="{ItemTitle}" data-price="{ItemPrice}" data-stock="{ItemStock}" data-img="{ItemImage1URL-640}" data-url="{ItemPageURL}"></li>{/block:Items}{/block:LoadItemsPage}
