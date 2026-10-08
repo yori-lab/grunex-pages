@@ -1,0 +1,164 @@
+{block:NotLoadItemsPage}<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{PageTitle}</title>
+<meta name="BASE-Theme-Name" content="grunex fabric">
+<meta name="BASE-Theme-Version" content="1">
+{FaviconTag}
+{CanonicalTag}
+{block:ItemPage}{MetaItemInfoTag}{/block:ItemPage}
+{block:NotItemPage}{MetaShopInfoTag}{/block:NotItemPage}
+{block:IndexPage}{HeadLinkNextPrevTag}{/block:IndexPage}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+<!-- 見た目と動きは GitHub Pages(yori-lab/grunex-pages)に置いている。正本は playground/grunex-theme -->
+<link rel="stylesheet" href="https://yori-lab.github.io/grunex-pages/theme/grunex.css?v=1">
+{BackgroundTag}
+{GoogleAnalyticsTag}
+</head>
+<body>
+<div id="couponBar"></div>
+<header class="site">
+  <div class="wrap">
+    <a class="logo" href="{IndexPageURL}">{LogoTag}</a>
+    <nav class="site">
+      <a href="{IndexPageURL}#fabrics">布から選ぶ</a>
+      <a href="{IndexPageURL}#instock">いま買える</a>
+      <a href="{IndexPageURL}#goods">小物</a>
+      <a href="{AboutPageURL}">About</a>
+      {block:AppsBlog}<a href="{BlogPageURL}">Blog</a>{/block:AppsBlog}
+      <a href="{ContactPageURL}">Contact</a>
+    </nav>
+    {BASEMenuTag}
+  </div>
+</header>
+
+<main>
+{block:IndexPage}
+  {block:ShopPublic}
+    {block:NoIndexPageCategory}{block:NoIndexPageSearch}
+      <div id="gx-home"></div>
+      <div class="wrap">
+        <section class="block guide" id="guide">
+          <h2>ご案内</h2>
+          <ul>
+            <li>6,500円のブーツは、平ゴムとレジンで手作りした留め具を使って制作しています。</li>
+            <li>6,000円のブーツは、丸ゴムとプラスチックの市販の留め具を使って制作しています。</li>
+            <li>セミオーダーリクエストでは、SOLD OUT品でも同じ生地を使って製作できます。在庫あり商品含め、色違いなどのご相談もどうぞ。</li>
+            <li>お問い合わせ、ご相談はinstagramのメッセージかウェブサイトのメッセージツールからお願いします。</li>
+            <li>海外発送を始めました。海外からのご注文の際は、先にinstagramかウェブサイトのメッセージツールからお問い合わせください。</li>
+          </ul>
+          <details>
+            <summary>In English</summary>
+            <ul>
+              <li>Boots priced at 6,500 yen are made using flat rubber and handmade clasps made of resin.</li>
+              <li>The boots priced at 6,000 yen are made with round rubber and plastic commercial clasps.</li>
+              <li>We can make semi-custom requests using the same fabrics even for SOLD OUT items. Please feel free to ask us about different colors, including products in stock.</li>
+              <li>If you have any questions or concerns, please contact us through the message on instagram or the message tool on our website.</li>
+              <li>We are now shipping internationally. If you are ordering from overseas, please contact us first via instagram or our website message tool.</li>
+            </ul>
+          </details>
+        </section>
+      </div>
+    {/block:NoIndexPageSearch}{/block:NoIndexPageCategory}
+    {block:IndexPageCategory}
+      <div class="wrap"><h1 class="list-title">{IndexPageCategory}</h1>{BreadcrumbTag}</div>
+      <div id="gx-list"></div>
+    {/block:IndexPageCategory}
+    {block:IndexPageSearch}
+      <div class="wrap"><h1 class="list-title">{lang:ItemSearchResult}</h1></div>
+      <div id="gx-list"></div>
+    {/block:IndexPageSearch}
+    <ul id="gx-items" hidden>{block:Items}<li class="gx-i" data-id="{ItemId}" data-title="{ItemTitle}" data-price="{ItemPrice}" data-stock="{ItemStock}" data-img="{ItemImage1URL-640}" data-url="{ItemPageURL}"></li>{/block:Items}</ul>
+    <script>window.GX = { more: "{LoadItemsPageURL}", params: "{LoadItemsPageURLParams}", max: "{MaxPageNumber}" };</script>
+  {/block:ShopPublic}
+  {block:NotShopPublic}
+    <div class="wrap page"><p>{lang:NotShopPublicMessage}</p></div>
+  {/block:NotShopPublic}
+{/block:IndexPage}
+
+{block:ItemPage}
+  <div class="wrap item" id="gx-item" data-id="{ItemId}" data-title="{ItemTitle}" data-stock="{ItemStock}" data-price="{ItemPrice}">
+    <div class="item-grid">
+      <div class="item-photos">
+        <img id="gx-main" src="{ItemImage1URL-1280}" alt="{ItemTitle}">
+        <div class="thumbs">
+          {block:ItemImage1}<button type="button" aria-pressed="true" data-src="{ItemImage1URL-1280}"><img src="{ItemImage1URL-146}" alt=""></button>{/block:ItemImage1}
+          {block:ItemImage2}<button type="button" data-src="{ItemImage2URL-1280}"><img src="{ItemImage2URL-146}" alt=""></button>{/block:ItemImage2}
+          {block:ItemImage3}<button type="button" data-src="{ItemImage3URL-1280}"><img src="{ItemImage3URL-146}" alt=""></button>{/block:ItemImage3}
+          {block:ItemImage4}<button type="button" data-src="{ItemImage4URL-1280}"><img src="{ItemImage4URL-146}" alt=""></button>{/block:ItemImage4}
+          {block:ItemImage5}<button type="button" data-src="{ItemImage5URL-1280}"><img src="{ItemImage5URL-146}" alt=""></button>{/block:ItemImage5}
+          {block:ItemImage6}<button type="button" data-src="{ItemImage6URL-1280}"><img src="{ItemImage6URL-146}" alt=""></button>{/block:ItemImage6}
+          {block:ItemImage7}<button type="button" data-src="{ItemImage7URL-1280}"><img src="{ItemImage7URL-146}" alt=""></button>{/block:ItemImage7}
+          {block:ItemImage8}<button type="button" data-src="{ItemImage8URL-1280}"><img src="{ItemImage8URL-146}" alt=""></button>{/block:ItemImage8}
+          {block:ItemImage9}<button type="button" data-src="{ItemImage9URL-1280}"><img src="{ItemImage9URL-146}" alt=""></button>{/block:ItemImage9}
+          {block:ItemImage10}<button type="button" data-src="{ItemImage10URL-1280}"><img src="{ItemImage10URL-146}" alt=""></button>{/block:ItemImage10}
+        </div>
+      </div>
+      <div class="item-info">
+        {block:AppsItemLabel}{AppsItemLabelTag}{/block:AppsItemLabel}
+        <h1>{ItemTitle}</h1>
+        <p class="price">{block:HasItemProperPrice}<s>{ItemProperPrice}</s>{/block:HasItemProperPrice}{ItemPrice}</p>
+        {ItemBnplBannerTag}
+        {ItemAttentionTag}
+        <div id="gx-semi"></div>
+        <div class="purchase">
+          {block:PurchaseForm}
+            {ItemSelectTag}
+            {PurchaseButton}
+          {/block:PurchaseForm}
+        </div>
+        <div class="detail">{ItemDetail}</div>
+        {block:AppsReview}{AppsReviewTag}{/block:AppsReview}
+        {IllegalReportTag}
+      </div>
+    </div>
+    {block:HasRelatedItems}
+      <section class="related">
+        <h2>関連商品</h2>
+        <div class="grid">
+          {block:RelatedItems}
+            <a class="card" href="{RelatedItemPageURL}">
+              <div class="ph" style="background-image:url('{RelatedItemImageURL-640}')"></div>
+              <div class="body"><div class="name">{RelatedItemTitle}</div><div class="price">{RelatedItemPrice}</div></div>
+            </a>
+          {/block:RelatedItems}
+        </div>
+      </section>
+    {/block:HasRelatedItems}
+  </div>
+{/block:ItemPage}
+
+{block:AboutPage}
+  <div class="wrap page">
+    <h1>About</h1>
+    <div class="prose">{ShopIntroduction}</div>
+  </div>
+{/block:AboutPage}
+
+{block:NotIndexPage}{block:NotItemPage}{block:NotAboutPage}
+  <div class="wrap page prose">{PageContents}</div>
+{/block:NotAboutPage}{/block:NotItemPage}{/block:NotIndexPage}
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="follow">
+      {block:ShopInstagramId}<a href="https://www.instagram.com/{ShopInstagramId}/" target="_blank" rel="noopener">Instagram</a>{/block:ShopInstagramId}
+      <a href="https://thebase.com/to_app?s=shop&amp;shop_id=grunex-base-shop&amp;follow=true">PAY IDアプリでフォロー</a>
+    </div>
+    {block:AppsI18n}{AppsI18nTag}{/block:AppsI18n}
+    <div class="sub">
+      <a href="{AboutPageURL}">About</a>
+      <a href="{ContactPageURL}">Contact</a>
+      <a href="{PrivacyPageURL}">{lang:Privacy}</a>
+      <a href="{LawPageURL}">{lang:Law}</a>
+    </div>
+  </div>
+</footer>
+<script src="https://yori-lab.github.io/grunex-pages/theme/grunex.js?v=1"></script>
+</body>
+</html>
+{/block:NotLoadItemsPage}{block:LoadItemsPage}{block:Items}<li class="gx-i" data-id="{ItemId}" data-title="{ItemTitle}" data-price="{ItemPrice}" data-stock="{ItemStock}" data-img="{ItemImage1URL-640}" data-url="{ItemPageURL}"></li>{/block:Items}{/block:LoadItemsPage}
