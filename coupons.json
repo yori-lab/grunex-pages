@@ -1,1 +1,17 @@
-{"updated": null, "coupons": []}
+{
+ "updated": "2026-10-08T11:46:00+09:00",
+ "coupons": [
+  {
+   "title": "【10/16（金）〜19（月）開催】「PAY IDアプリ」初回購入限定！「20％OFFクーポン・秋のはじめて割＋次回使える500pt」",
+   "article": "https://baseu.jp/information/20261002",
+   "campaign": "https://payid.jp/campaign/payid_20261016_newpayid20",
+   "start": "2026-10-16T12:00:00+09:00",
+   "end": "2026-10-19T23:59:00+09:00",
+   "offer": "20％OFFクーポン（上限500円）",
+   "code": "new2610payid",
+   "first_only": true,
+   "web_ok": false,
+   "banner": "banners/20261002.png"
+  }
+ ]
+}
