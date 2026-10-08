@@ -106,8 +106,10 @@
   }
 
   function cardItem(i) {
+    // セミオーダーを受けているのはブーツだけ(小物は受けていない)
     const badge = i.kind === "semi" ? ""
       : i.stock > 0 ? `<span class="badge ok">在庫あり</span>`
+      : i.kind !== "boots" ? `<span class="badge gone">売り切れ</span>`
       : i.noSemi ? `<span class="badge gone">布終了</span>`
       : `<span class="badge semi">セミオーダー可</span>`;
     const href = i.kind === "boots" && i.stock === 0 && i.fabric ? `#/fabric/${i.fabric}?b=${i.bottom}` : i.url;
@@ -149,7 +151,7 @@
       </section>
       <section class="block" id="goods">
         <h2>小物</h2>
-        <p class="lead">ブーツと同じ布でつくるタンバリンケースやポーチ。</p>
+        <p class="lead">ブーツと同じ布でつくるタンバリンケースやポーチ。一点もので、売り切れた物の再製作はしていません。</p>
         <div class="grid">${goods.map(cardItem).join("")}</div>
       </section>
     </div>`;
