@@ -179,3 +179,6 @@ body { padding-bottom: 72px; }  /* スマホのメッセージApp「ショップ
 nav.site { scrollbar-width: none; }
 nav.site::-webkit-scrollbar { display: none; }
 .card .ph .label { position: absolute; right: 6px; top: 6px; width: 40px; height: auto; pointer-events: none; }
+.badge.new { left: auto; right: 8px; color: #fff; background: var(--accent); letter-spacing: .06em; }
+.card .ph .badge.new ~ .label { top: 34px; }
+.badge.new.inline { position: static; display: inline-block; margin-bottom: 6px; }

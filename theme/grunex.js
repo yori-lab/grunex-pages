@@ -45,8 +45,22 @@
       shortName: t.replace(/^ウォームアップブーツ\s*/, "").replace(/※セミオーダー不可/, ""),
     };
   }
-  // ラベルApp の画像(NEW など)はテンプレートが li の中に入れてくる
-  const fromLi = li => ({ ...parse({ ...li.dataset }), label: li.querySelector("img")?.src || "" });
+  // ラベルApp の画像はテンプレートが li の中に入れてくる。ただし NEW ラベルは外し忘れると
+  // ずっと付いたままなので使わない。NEW は new.json(毎朝、初めて店に並んだ日を控える)から決める。
+  const isNewLabel = src => /_new\b|_new\./i.test(src);
+  const fromLi = li => {
+    const src = [...li.querySelectorAll("img")].map(i => i.src).find(s => !isNewLabel(s)) || "";
+    return { ...parse({ ...li.dataset }), label: src };
+  };
+  let NEW = new Set();
+  async function loadNew() {
+    try {
+      const d = await fetch(PAGES + "new.json").then(r => r.json());
+      const since = Date.now() - (d.days || 30) * 864e5;
+      NEW = new Set(Object.entries(d.first_seen).filter(([, day]) => day && new Date(day) >= since).map(([id]) => id));
+    } catch (e) { /* 読めなければ NEW を出さないだけ */ }
+  }
+  const newTag = id => NEW.has(String(id)) ? `<span class="badge new">NEW</span>` : "";
 
   // 柄の並びは A〜Z の次が AA, AB…(表計算の列名と同じ)。文字数が少ない方を先にしてから比べる。
   function byCode(a, b) {
@@ -98,7 +112,7 @@
       : `<span class="badge semi">セミオーダー可</span>`;
     const href = i.kind === "boots" && i.stock === 0 && i.fabric ? `#/fabric/${i.fabric}?b=${i.bottom}` : i.url;
     return `<a class="card" href="${href}">
-      <div class="ph" style="background-image:url('${i.img}')">${badge}${i.label ? `<img class="label" src="${i.label}" alt="">` : ""}</div>
+      <div class="ph" style="background-image:url('${i.img}')">${badge}${newTag(i.id)}${i.label ? `<img class="label" src="${i.label}" alt="">` : ""}</div>
       <div class="body">
         <div class="name">${esc(i.shortName)}</div>
         <div class="price">${esc(i.price)}</div>
@@ -164,8 +178,9 @@
       const cover = it ? it.img : f.cover;
       const badge = f.noSemi ? `<span class="badge gone">布終了・見本のみ</span>` : f.inStock ? `<span class="badge ok">在庫あり</span>` : "";
       const label = (it || f.items.find(i => i.label))?.label;
+      const fresh = (it ? [it] : f.items).some(i => NEW.has(String(i.id))) ? `<span class="badge new">NEW</span>` : "";
       return `<a class="card" href="#/fabric/${f.code}${state.bottom ? "?b=" + state.bottom : ""}">
-        <div class="ph" style="background-image:url('${cover}')">${badge}${label ? `<img class="label" src="${label}" alt="">` : ""}</div>
+        <div class="ph" style="background-image:url('${cover}')">${badge}${fresh}${label ? `<img class="label" src="${label}" alt="">` : ""}</div>
         <div class="body">
           <div class="name">${f.code}　${esc(f.base)}地</div>
           <div class="meta">作った組み合わせ ${f.bottoms.length}色</div>
@@ -272,6 +287,10 @@
   function enhanceItem() {
     const el = $("gx-item");
     const it = parse({ ...el.dataset });
+    document.querySelectorAll(".item-info img.label_image").forEach(img => { if (isNewLabel(img.src)) img.remove(); });
+    loadNew().then(() => {
+      if (NEW.has(String(it.id))) el.querySelector(".item-info h1")?.insertAdjacentHTML("beforebegin", `<span class="badge new inline">NEW</span>`);
+    });
     document.querySelectorAll(".item-photos .thumbs button").forEach(b => b.onclick = () => {
       $("gx-main").src = b.dataset.src;
       document.querySelectorAll(".item-photos .thumbs button").forEach(x => x.setAttribute("aria-pressed", x === b));
@@ -361,7 +380,7 @@
     if ($("gx-home") || $("gx-list")) {
       const target = $("gx-home") || $("gx-list");
       target.innerHTML = `<p class="loading">読み込み中…</p>`;
-      ITEMS = await loadAllItems();
+      [ITEMS] = await Promise.all([loadAllItems(), loadNew()]);
       buildFabrics();
       if ($("gx-home")) { addEventListener("hashchange", route); route(); }
       else renderList();
