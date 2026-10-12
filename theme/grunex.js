@@ -23,6 +23,11 @@
     BRN: ["ブラウン", "#6b4a33"], PNK: ["ピンク", "#b4478f"], PBL: ["ピーコックブルー", "#0f6f7a"],
     OLG: ["オリーブグリーン", "#6d7140"], STB: ["ストロベリー", "#d8476b"], RPP: ["ロイヤルパープル", "#5b2b86"],
   };
+  // ゴムの色。既定は下部と同じ色で、希望があれば選べる(色の一覧はセミオーダー商品の説明文と同じ)
+  const RUBBER = {
+    usual: ["丸ゴム", "ブラック、ネイビー、グレー、ライトグレー、オリーブ、ブラウン、レッド"],
+    original: ["平ゴム", "ブラック、ネイビー、ロイヤルブルー、サックス、ターコイズ、グレー、ライトグレー、ベージュ、ホワイト、イエロー、レッド、ワインレッド、ピンク、ラベンダー、エメラルドグリーン、セージグリーン、ダークグリーン、ダークブラウン"],
+  };
   const SIZES = [["Ｓ", "底面23.5cm"], ["Ｍ", "底面25.0cm"], ["Ｌ", "底面26.5cm"], ["ＬＬ", "底面29.0cm"]];
   const HOME = window.GX_HOME || location.origin + "/";   // テンプレートの {IndexPageURL}
 
@@ -195,7 +200,7 @@
   function renderFabric(code, query) {
     const f = FABRICS.get(code);
     if (!f) return renderTop();
-    const sel = { bottom: query.get("b") || f.bottoms[0], size: "Ｍ", clasp: "usual" };
+    const sel = { bottom: query.get("b") || f.bottoms[0], size: "Ｍ", clasp: "usual", rubber: "" };
     const siblings = [...FABRICS.values()].filter(x => x.pattern === f.pattern && x.code !== f.code).sort((a, b) => byCode(a.code, b.code));
 
     $("gx-home").innerHTML = `
@@ -223,6 +228,11 @@
           <div class="step">
             <h3>3. 留め具</h3>
             <div class="seg" id="clasps"></div>
+          </div>
+          <div class="step">
+            <h3>4. ゴムの色</h3>
+            <select id="rubber"></select>
+            <p class="hint">ふだんは下部と同じ色でお作りします。材料の在庫によっては近い色味になります。</p>
           </div>
           <div class="summary">
             <strong>ご注文内容</strong>
@@ -268,8 +278,14 @@
       $("clasps").innerHTML = [["usual", "通常留め具"], ["original", "オリジナル留め具（レジン手作り）"]].map(([k, l]) =>
         `<button type="button" data-c="${k}" aria-pressed="${k === sel.clasp}">${l}<br><small>${esc(SEMI[k]?.price || "")}</small></button>`).join("");
       document.querySelectorAll("#clasps button").forEach(b => b.onclick = () => { sel.clasp = b.dataset.c; draw(); });
+      const [rubber, colors] = RUBBER[sel.clasp];
+      const choices = colors.split("、");
+      if (!choices.includes(sel.rubber)) sel.rubber = "";
+      $("rubber").innerHTML = [["", `下部と同じ色（${BOTTOM[sel.bottom]?.[0] || sel.bottom}）`], ...choices.map(c => [c, c])].map(([v, l]) =>
+        `<option value="${v}"${v === sel.rubber ? " selected" : ""}>${rubber} ${l}</option>`).join("");
+      $("rubber").onchange = e => { sel.rubber = e.target.value; draw(); };
 
-      const text = `【${f.code}/${sel.bottom}】${sel.size}サイズ／${sel.clasp === "usual" ? "通常留め具" : "オリジナル留め具（色はお任せ）"}`;
+      const text = `【${f.code}/${sel.bottom}】${sel.size}サイズ／${sel.clasp === "usual" ? "通常留め具" : "オリジナル留め具（色はお任せ）"}／${rubber} ${sel.rubber || "下部と同じ色"}`;
       $("orderText").textContent = text;
       $("goBtn").href = SEMI[sel.clasp]?.url || HOME;
       $("copyBtn").onclick = () => copy(text);
