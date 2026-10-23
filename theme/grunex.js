@@ -143,6 +143,7 @@
         </div>
       </section>
       <div id="couponBanner"></div>
+      ${xmasNotice()}
       <section class="block" id="instock">
         <h2>いま買えるブーツ</h2>
         <p class="lead">完成品・在庫ありの一点もの。届くまでがいちばん早いです。</p>
@@ -366,6 +367,27 @@
         ${COUPON.web_ok ? "" : `<p class="coupon-note">PAY IDアプリでのお買いもの限定です。このWebショップのカートでは使えません。</p>`}
         ${payidLink("btn primary")}
       </div>`;
+  }
+
+  /* ---------- クリスマスのお届け(目安の日を過ぎた行から消え、全部過ぎたら枠ごと出さない) ---------- */
+  const XMAS = [
+    ["2026-12-07", "布や色の組み合わせなどをご相談しながらお作りする場合", "12月7日頃までにご連絡ください。Instagram の DM か、ショップのメッセージからどうぞ。打ち合わせをしてから制作に入ります。"],
+    ["2026-12-17", "セミオーダー（ショップでのご注文のみ）", "12月17日頃までのご注文"],
+    ["2026-12-21", "在庫のあるブーツ", "12月21日頃までのご注文"],
+  ];
+
+  function xmasNotice() {
+    const q = new URLSearchParams(location.search).get("now");   // ?now=2026-12-10T10:00 で時刻を差し替えて確認できる
+    const now = q ? new Date(q) : new Date();
+    const rows = XMAS.filter(([d]) => now < new Date(d + "T23:59:59+09:00"));
+    if (!rows.length) return "";
+    return `<section class="xmas">
+      <h2>クリスマスのお届けについて</h2>
+      <p>12月25日までにお届けしたい方は、次の頃を目安にご注文・ご相談ください。</p>
+      <dl>${rows.map(([, who, when]) => `<dt>${who}</dt><dd>${when}</dd>`).join("")}</dl>
+      <p class="small">一足ずつ手作りしているため、ご注文が重なった場合はお届けが遅れることがあります。早めのご注文がおすすめです。離島など一部の地域は、お届けに日数がかかる場合があります。</p>
+      <p class="small">ブーツは緑色の薄紙で包み、箱（1足の場合は60サイズ）に入れてお届けします。ギフト用の外側のラッピングは承っていないため、必要な場合はお受け取り後にご用意ください。</p>
+    </section>`;
   }
 
   function copy(text) {
