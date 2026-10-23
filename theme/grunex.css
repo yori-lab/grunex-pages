@@ -181,6 +181,23 @@ nav.site { display: flex; flex-wrap: wrap; justify-content: flex-end; flex: 1; }
 .prose { font-size: 14px; }
 .prose img { height: auto; }
 
+/* BASE が書き出すフォーム(お問い合わせなど)。中身は変えられないので見た目だけ揃える */
+.page form dl { margin: 16px 0 0; }
+.page form dt { font-weight: 700; font-size: 13px; margin: 0 0 6px; }
+.page form dd { margin: 0; }
+.page form dd.error { color: var(--accent); font-size: 12px; margin: 4px 0 18px; }
+.page form input[type=text], .page form input[type=email], .page form input[type=tel], .page form textarea, .page form select {
+  width: 100%; font: inherit; font-size: 16px; color: var(--ink); background: var(--paper);
+  border: 1px solid var(--line); border-radius: 10px; padding: 11px 14px;
+}
+.page form textarea { min-height: 200px; resize: vertical; }
+.page form input:focus, .page form textarea:focus, .page form select:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+.page form input[type=submit], .page form button[type=submit] {
+  display: block; width: 100%; max-width: 320px; margin: 8px auto 16px; padding: 13px 20px; border: 0; border-radius: 999px;
+  background: var(--ink); color: #fff; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer;
+}
+.page form input[type=submit]:hover, .page form button[type=submit]:hover { opacity: .85; }
+
 footer.site .follow { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
 footer.site .follow a { text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; background: var(--paper); color: var(--ink); }
 footer.site .sub { margin-top: 10px; }
