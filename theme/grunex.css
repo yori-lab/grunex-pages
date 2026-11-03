@@ -149,6 +149,7 @@ nav.site { display: flex; flex-wrap: wrap; justify-content: flex-end; flex: 1; }
 
 /* ご案内 */
 .guide { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; font-size: 13px; }
+section.block.guide { padding: 18px 20px; margin: 32px 0; }   /* section.block の padding(左右0)に負けて、文と点が枠の線に重なっていた */
 .guide h2 { font-size: 16px; margin: 0 0 8px; }
 .guide ul { margin: 0; padding-left: 1.2em; }
 .guide details { margin-top: 10px; color: var(--ink-soft); }
