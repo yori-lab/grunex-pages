@@ -201,7 +201,9 @@
   function renderFabric(code, query) {
     const f = FABRICS.get(code);
     if (!f) return renderTop();
-    const sel = { bottom: query.get("b") || f.bottoms[0], size: "Ｍ", clasp: "usual", rubber: "" };
+    // 留め具は受付枠(在庫)が残っているものだけ出す。通常留め具は売れ行きが悪く 0 にしてある(2026-11)
+    const clasps = [["usual", "通常留め具"], ["original", "オリジナル留め具（レジン手作り）"]].filter(([k]) => SEMI[k]?.stock > 0);
+    const sel = { bottom: query.get("b") || f.bottoms[0], size: "Ｍ", clasp: clasps[0]?.[0] || "original", rubber: "" };
     const siblings = [...FABRICS.values()].filter(x => x.pattern === f.pattern && x.code !== f.code).sort((a, b) => byCode(a.code, b.code));
 
     $("gx-home").innerHTML = `
@@ -276,7 +278,7 @@
       $("sizes").innerHTML = SIZES.map(([s, d]) =>
         `<button type="button" data-s="${s}" aria-pressed="${s === sel.size}">${s}<br><small>${d}</small></button>`).join("");
       document.querySelectorAll("#sizes button").forEach(b => b.onclick = () => { sel.size = b.dataset.s; draw(); });
-      $("clasps").innerHTML = [["usual", "通常留め具"], ["original", "オリジナル留め具（レジン手作り）"]].map(([k, l]) =>
+      $("clasps").innerHTML = clasps.map(([k, l]) =>
         `<button type="button" data-c="${k}" aria-pressed="${k === sel.clasp}">${l}<br><small>${esc(SEMI[k]?.price || "")}</small></button>`).join("");
       document.querySelectorAll("#clasps button").forEach(b => b.onclick = () => { sel.clasp = b.dataset.c; draw(); });
       const [rubber, colors] = RUBBER[sel.clasp];
