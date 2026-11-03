@@ -144,6 +144,7 @@
       </section>
       <div id="couponBanner"></div>
       ${xmasNotice()}
+      ${pauseNotice()}
       <section class="block" id="instock">
         <h2>いま買えるブーツ</h2>
         <p class="lead">完成品・在庫ありの一点もの。届くまでがいちばん早いです。</p>
@@ -291,6 +292,10 @@
       const text = `【${f.code}/${sel.bottom}】${sel.size}サイズ／${sel.clasp === "usual" ? "通常留め具" : "オリジナル留め具（色はお任せ）"}／${rubber} ${sel.rubber || "下部と同じ色"}`;
       $("orderText").textContent = text;
       $("goBtn").href = SEMI[sel.clasp]?.url || HOME;
+      if (paused()) {
+        $("goBtn").remove();
+        $("orderText").insertAdjacentHTML("afterend", `<div class="gone-note">${PAUSE_NOTE}</div>`);
+      }
       $("copyBtn").onclick = () => copy(text);
     }
     draw();
@@ -323,6 +328,10 @@
       return;
     }
     const code = `【${it.fabric}/${it.bottom}】`;
+    if (paused()) {
+      slot.innerHTML = `<div class="gone-note">この配色はセミオーダーで作れます（商品コード ${code}）。${PAUSE_NOTE}</div>`;
+      return;
+    }
     slot.innerHTML = `<div class="semi-panel">
       <strong>この配色はセミオーダーで作れます</strong>
       同じ布で、サイズ違いや下部の色違いもお作りします。
@@ -369,6 +378,18 @@
         ${COUPON.web_ok ? "" : `<p class="coupon-note">PAY IDアプリでのお買いもの限定です。このWebショップのカートでは使えません。</p>`}
         ${payidLink("btn primary")}
       </div>`;
+  }
+
+  /* ---------- 年末年始の制作休み(この間は在庫品だけ。BASE 側もセミオーダー商品の在庫を 0 にする) ---------- */
+  const PAUSE = { from: "2026-12-21T00:00:00+09:00", to: "2027-02-01T00:00:00+09:00",
+                  last: "12月20日", resume: "2月1日", rest: "12月24日〜1月31日" };
+  const clock = () => { const q = new URLSearchParams(location.search).get("now"); return q ? new Date(q) : new Date(); };
+  const paused = () => { const n = clock(); return n >= new Date(PAUSE.from) && n < new Date(PAUSE.to); };
+  const PAUSE_NOTE = `${PAUSE.rest}は制作をお休みするため、セミオーダーのご注文は${PAUSE.last}まで、${PAUSE.resume}から再開します。お休みの間も、在庫のあるブーツはご購入いただけます。`;
+
+  function pauseNotice() {
+    if (clock() >= new Date(PAUSE.to)) return "";
+    return `<section class="xmas"><h2>年末年始の制作のお休み</h2><p>${PAUSE_NOTE}</p></section>`;
   }
 
   /* ---------- クリスマスのお届け(目安の日を過ぎた行から消え、全部過ぎたら枠ごと出さない) ---------- */
