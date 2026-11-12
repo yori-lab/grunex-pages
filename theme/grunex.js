@@ -358,14 +358,24 @@
     if (!c) return;
     COUPON = c;
     const start = new Date(c.start), end = new Date(c.end), live = now >= start;
-    const who = c.first_only ? "PAY IDアプリではじめてお買いものの方は" : "PAY IDアプリでのお買いもので";
+    // anywhere: BASE 負担クーポンのように、このショップのカートでもアプリでも使えるもの(2026-11 BASE 感謝祭から)
+    const who = c.anywhere ? "カートでクーポンコードを入れると"
+      : c.first_only ? "PAY IDアプリではじめてお買いものの方は" : "PAY IDアプリでのお買いもので";
     $("couponBar").innerHTML = `<div class="coupon"><div class="wrap">
       <span class="tag">${live ? "開催中" : "予告"}</span>
       <div class="txt">${who} <b>${esc(c.offer || "クーポン")}</b><br>
         ${live ? `${fmt(end)}まで` : `${fmt(start)}〜${fmt(end)}`}${c.code ? `　クーポンコード ${esc(c.code)}` : ""}
         ${c.web_ok ? "" : "<small>このWebショップでのご購入には使えません。PAY IDアプリから grunex でお買いものください。</small>"}</div>
-      ${IS_PHONE ? `<a href="${PAYID_SHOP}">アプリで開く</a>` : `<a href="${c.campaign}" target="_blank" rel="noopener">くわしく</a>`}
+      ${c.anywhere && c.code ? `<a href="#" id="gx-coupon-copy">コードをコピー</a>`
+        : IS_PHONE ? `<a href="${PAYID_SHOP}">アプリで開く</a>` : `<a href="${c.campaign}" target="_blank" rel="noopener">くわしく</a>`}
     </div></div>`;
+    const cc = $("gx-coupon-copy");
+    if (cc) cc.onclick = e => {
+      e.preventDefault();
+      (navigator.clipboard ? navigator.clipboard.writeText(c.code) : Promise.reject())
+        .then(() => toast("クーポンコードをコピーしました。カートで入力してください"))
+        .catch(() => toast("クーポンコード " + c.code));
+    };
     renderCouponBanner();
   }
 
@@ -376,7 +386,7 @@
         <img src="${PAGES + COUPON.banner}" alt="${esc(COUPON.title)}" loading="lazy"></a>
       <div class="coupon-foot">
         ${COUPON.web_ok ? "" : `<p class="coupon-note">PAY IDアプリでのお買いもの限定です。このWebショップのカートでは使えません。</p>`}
-        ${payidLink("btn primary")}
+        ${COUPON.anywhere ? "" : payidLink("btn primary")}
       </div>`;
   }
 
