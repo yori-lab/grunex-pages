@@ -1,4 +1,18 @@
 {
- "updated": "2026-10-31T10:00:04+09:00",
- "coupons": []
+ "updated": "2026-11-12T10:05:52+09:00",
+ "coupons": [
+  {
+   "title": "BASE負担クーポン配布｜【告知方法のご案内】10%OFF！BASE 感謝祭クーポンキャンペーン",
+   "article": "https://baseu.jp/52053",
+   "campaign": "https://payid.jp/campaign/payid_20261126_base",
+   "start": "2026-11-26T00:00:00+09:00",
+   "end": "2026-11-27T23:59:00+09:00",
+   "offer": "10％OFF（上限1,000円）",
+   "code": "2611base",
+   "first_only": false,
+   "web_ok": true,
+   "anywhere": true,
+   "banner": "banners/52053.png"
+  }
+ ]
 }
